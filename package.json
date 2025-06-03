@@ -1,0 +1,28 @@
+{
+  "name": "koa-mongo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc-watch --onSuccess \"node ./dist/index.js\""
+  },
+  "dependencies": {
+    "@koa/cors": "^3.3.0",
+    "@koa/router": "^10.1.1",
+    "dotenv": "^16.0.1",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-logger": "^3.2.1",
+    "mongoose": "^6.3.3",
+    "ts-node": "^10.9.2",
+    "zod": "^3.16.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "@types/koa__cors": "^3.3.0",
+    "@types/koa__router": "^8.0.11",
+    "@types/koa-bodyparser": "^4.3.7",
+    "@types/koa-logger": "^3.1.2",
+    "tsc-watch": "^5.0.3",
+    "typescript": "^4.9.5"
+  }
+}
