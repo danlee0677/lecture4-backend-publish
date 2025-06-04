@@ -1,7 +1,7 @@
 import Router from '@koa/router'
 import { Next, ParameterizedContext } from 'koa'
 import { z } from 'zod'
-import { RectangleModel } from './models'
+import { UserModel } from './models'
 import { User, userZodSchema, State } from './types'
 
 const router = new Router()
@@ -10,7 +10,7 @@ router.get('/user/:username', async (ctx: ParameterizedContext<State>, next: Nex
   const paramparse = z.object({ username: z.string() }).safeParse(ctx.params)
   ctx.assert(paramparse.success, 400)
 
-  const found = await RectangleModel.findOne({ username: paramparse.data.username }).lean().exec()
+  const found = await UserModel.findOne({ username: paramparse.data.username }).lean().exec()
   ctx.assert(found, 404)
 
   ctx.status = 200
@@ -23,10 +23,10 @@ router.post('/user', async (ctx: ParameterizedContext<State>, next: Next) => {
   const bodyparse = userZodSchema.safeParse(ctx.request.body)
   ctx.assert(bodyparse.success, 400)
 
-  const found = await RectangleModel.findOne({ name: bodyparse.data.username }).lean().exec()
+  const found = await UserModel.findOne({ username: bodyparse.data.username }).lean().exec()
   ctx.assert(found === null, 409)
 
-  const model = new RectangleModel(bodyparse.data)
+  const model = new UserModel(bodyparse.data)
   await model.save()
 
   ctx.status = 201
@@ -37,7 +37,7 @@ router.post('/user', async (ctx: ParameterizedContext<State>, next: Next) => {
 router.delete('/user/:username', async (ctx: ParameterizedContext<State>, next: Next) => {
   const paramparse = z.object({ username: z.string() }).safeParse(ctx.params)
   ctx.assert(paramparse.success, 400)
-  const document = await RectangleModel.findOne({ name: paramparse.data.username }).exec()
+  const document = await UserModel.findOne({ username: paramparse.data.username }).exec()
   ctx.assert(document, 404)
 
   await document.deleteOne()
@@ -53,7 +53,7 @@ router.patch('/user/:username', async (ctx: ParameterizedContext<State>, next: N
   const bodyparse = z.object({ asset: z.number(), password: z.string(), roles: z.array(z.string()) }).safeParse(ctx.request.body)
   ctx.assert(bodyparse.success, 400)
 
-  const document = await RectangleModel.findOne({ name: paramparse.data.username }).exec()
+  const document = await UserModel.findOne({ username: paramparse.data.username }).exec()
   ctx.assert(document, 404)
 
   await document.updateOne({

@@ -8,4 +8,4 @@ export const userSchema = new Schema<User>({
   
 })
 
-export const RectangleModel = connection.model<User>('rectangle', userSchema)
+export const UserModel = connection.model<User>('user', userSchema)
